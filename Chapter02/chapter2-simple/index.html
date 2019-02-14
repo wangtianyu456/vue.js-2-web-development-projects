@@ -1,43 +1,89 @@
 <html lang="en">
 <head>
-  <title>Notebook</title>
-  <!-- Icons & Stylesheets -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+    <title>Notebook</title>
+    <!-- Icons & Stylesheets -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <!-- Include the library in the page -->
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/marked"></script>
+<!-- Include the library in the page -->
+<script src="https://cdn.bootcss.com/vue/2.6.3/vue.js"></script>
+<script src="https://cdn.bootcss.com/marked/0.6.0/marked.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
 
-  <!-- Notebook app -->
-  <div id="notebook">
+<!-- Notebook app -->
+<div id="notebook">
 
 
     <aside class="side-bar">
-      <!-- 工具栏 -->
-      <div class="toolbar">
-        <!-- 添加笔记按钮 -->
-        <button @click="addNote">
-          <i class="material-icons">add</i>
-          Add note</button>
-      </div>
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <!-- 添加笔记按钮 -->
+            <button @click="addNote" :title="addButtonTitle">
+                <i class="material-icons">add</i>
+                Add note
+            </button>
+        </div>
+        <div class="notes">
+            <!-- 笔记列表显示在这里 -->
+            <div
+                    class="note"
+                    :class="{selected:note===selectedNote}"
+                    v-for="note in sortedNotes"
+                    @click="selectNote(note)"
+            >{{note.title}}
+                <i class="icon material-icons" v-if="note.favorite">star</i>
+            </div>
+        </div>
     </aside>
 
     <!-- 主面板 -->
-    <section class="main">
-      <textarea v-model="content"></textarea>
+    <section class="main" v-if="selectedNote">
+        <div class="toolbar">
+            <!-- 重命名笔记、删除笔记、收藏笔记 -->
+            <input v-model="selectedNote.title" placeholder="Note Title">
+            <button @click="favoriteNote" title="Favorite note">
+                <i class="material-icons">{{selectedNote.favorite?'star':'star_border'}}</i>
+            </button>
+            <button @click="removeNote" title="Remove note">
+                <i class="material-icons">delete</i>
+            </button>
+        </div>
+        <textarea v-model="selectedNote.content"></textarea>
+        <div class="toolbar status-bar">
+            <!-- 状态栏 -->
+            <span class="date">
+                <span class="label">Created</span>
+                <span class="value">{{ selectedNote.created | date }}</span>
+            </span>
+
+            <span class="lines">
+                <span class="label">Lines</span>
+                <span class="value">{{ linesCount }}</span>
+            </span>
+
+            <span class="words">
+                <span class="label">Words</span>
+                <span class="value">{{ wordsCount }}</span>
+            </span>
+
+            <span class="characters">
+                <span class="label">characters</span>
+                <span class="value">{{ charactersCount }}</span>
+            </span>
+
+        </div>
     </section>
 
     <!-- Preview pane -->
-    <aside class="preview" v-html="notePreview">
+    <aside class="preview" v-if="selectedNote" v-html="notePreview">
     </aside>
 
-  </div>
+</div>
 
-  <!-- Some JavaScript -->
-  <script src="script.js">
+<!-- Some JavaScript -->
+<script src="script.js">
 
-  </script>
+</script>
 </body>
 </html>
