@@ -292,7 +292,7 @@ body {
     background: linear-gradient(to bottom, transparent 0, rgba(255, 255, 255, .4) 100%);
     -webkit-perspective: 1000px;
     perspective: 1000px;
-    pointer-events: none
+    /* pointer-events: none */
 }
 
 @media (max-width:1200px) {

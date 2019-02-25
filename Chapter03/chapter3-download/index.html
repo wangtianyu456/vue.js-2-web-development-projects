@@ -20,12 +20,18 @@
 
   <!-- Game app -->
   <div id="app"></div>
+  <script type="text/x-template" id="banner">
+    <svg viewBox="0 0 20 260">
+      <path :d="`m 0,0 20,0 0,${height} -10,-10 -10,10 z`" :style="`fill:${color};stroke:none;`" />
+    </svg>
+  </script>
 
   <!-- Scripts -->
   <script src="utils.js"></script>
   <script src="cards.js"></script>
   <script src="state.js"></script>
   <script src="components/ui.js"></script>
+  <script src="components/world.js"></script>
   <script src="main.js"></script>
 </body>
 
